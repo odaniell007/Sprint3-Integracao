@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sessão de Recarga - GoodWe</title>
+    <link rel="icon" type="image/png" href="./assets/icone.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="cabecalho">
+        <img src="./assets/logo_goodwe.png" class="logo-header" alt="Logo GoodWe">
+
+        <nav class="menu">
+            <a href="index.html">Início</a>
+        </nav>
+    </header>
+
+<div class="main">
+    <img class="logo" alt="Logo GoodWe" src="./assets/logo_goodwe.png">
+        <!-- ABAS -->
+        <div class="page-tabs">
+            <button class="tab-botao active" onclick="mudarTab('sessao', this)">🔋 Sessão</button>
+            <button class="tab-botao" onclick="mudarTab('tarifacao', this)">📋 Tarifação</button>
+            <button class="tab-botao" onclick="mudarTab('pagamento', this)">💳 Pagamento</button>
+            <button class="tab-botao" onclick="mudarTab('integracao', this)">⚡ Integração</button>
+        </div>
+    <div class="container">
+        <!-- ====== ABA SESSÃO ====== -->
+        <div class="conteudo active" id="tab-sessao">
+            <h1 class="titulo">🔋 Sessão de Recarga</h1>
+
+            <form class="form-recarga" id="formRecarga">
+                <label class="form-label">Tipo de Usuário:</label>
+                <select>
+                    <option>Comum</option>
+                    <option>Premium (20% de Desconto)</option>
+                </select>
+
+                <label>Tempo de Recarga (minutos):</label>
+                <input type="number" id="tempoInput" placeholder="Ex: 60" required>
+
+                <label>Potência do Carregador (kW):</label>
+                <input type="number" id="potenciaInput" placeholder="Ex: 7" required>
+
+                <label>Horário:</label>
+                <select>
+                    <option>Normal</option>
+                    <option>Pico (Acréscimo de 30%)</option>
+                </select>
+
+                <button type="submit">Iniciar Sessão</button>
+
+            </form>
+
+            <div class="resultado">
+                <h2>Resultado da Sessão</h2>
+                <p><strong>Energia Consumida:</strong> <span id="energia">-- kWh</span></p>
+                <p><strong>Tempo Total:</strong> <span id="tempo">-- min</span></p>
+                <p><strong>Tarifa Extra:</strong> <span id="valorTarifa">R$ --</span></p>
+                <p><strong>Valor Total:</strong> <span id="valorTotal">R$ --</span></p>
+                <p><strong>Desconto:</strong> <span id="valorDesconto">R$ --</span></p>
+                <p><strong>Fonte de Energia:</strong> <span id="fonteEnergia">--</span></p>
+                <p><strong>Status Automação:</strong> <span id="statusAutomacao">--</span></p>
+            </div>
+
+            <button class="botao-ir-pagamento" id="botaoIrPagamento" onclick="irParaPagamento()">💳 Prosseguir para Pagamento →</button>
+        </div>
+
+        <!-- ====== ABA TARIFAÇÃO ====== -->
+        <div class="conteudo" id="tab-tarifacao">
+            <h1 class="titulo">📋 Tarifação</h1>
+    
+        <div class="cards">
+            <div class="card">
+                <h3>⭐USUÁRIO PREMIUM</h3>
+                <div class="desconto">-20%</div>
+                    <p>Desconto sobre o valor total da sessão</p>
+                </div>
+
+            <div class="card">
+                <h3>🕐HORÁRIO PICO</h3>
+                <div class="acrescimo">+30%</div>
+                    <p>Acréscimo sobre a tarifa base</p>
+                </div>
+            </div>
+            <div class="horarios">
+                <h3>HORÁRIOS DE REFERÊNCIA</h3>
+                <p class="normal">00h – 17h59 e 22h – 23h59 (NORMAL)</p>
+                <p class="pico"><br>18h00 – 21h59 (PICO)</p>
+            </div>
+            <div class="footer">
+                <h3 class="titulo_footer">💡 CÁLCULO:</h3>
+                <br><strong>Energia (kWh) × Potência × (Tempo / 60)</strong> 
+                <br><br><p class="descricao_footer">O valor final é obtido multiplicando a energia pela tarifa correspondente e aplicando os acréscimos e descontos.</p>
+            </div>
+           <div class="footer">
+                <h3 class="titulo_footer">💰 SISTEMA DE TARIFAÇÃO POR POTÊNCIA</h3>
+                <br><strong>7 kW = R$ 2,00/kWh <br><br> 7 - 22kW = R$ 2,50/kWh <br><br> +22kW = R$ 3,00/kWh</strong> 
+                <br><br><p class="descricao_footer">O sistema utiliza tarifas diferentes conforme a potência do carregador. Carregadores de até 7 kW possuem tarifa de R$ 2,00 por kWh, os de até 22 kW utilizam R$ 2,50 por kWh, e carregadores acima de 22 kW possuem tarifa de R$ 3,00 por kWh, representando estações de recarga rápida com maior custo operacional.</p>
+            </div>
+        </div>    
+
+        <!-- ====== ABA PAGAMENTO ====== -->
+       <div class="conteudo" id="tab-pagamento">
+            <h1 class="titulo">💳 Pagamento</h1>
+
+        <div class="resultado" id="resumoPagamento">
+            <div class="titulo_pagamento">RESUMO DA SESSÃO</div>
+            <div class="linha_resumo_pagamento"><span class="texto_resumo_pagamento">Energia consumida</span><span class="valor_resumo_pagamento" id="energiaPagamento">-- kWh</span></div>
+            <div class="linha_resumo_pagamento"><span class="texto_resumo_pagamento">Tempo de recarga</span><span class="valor_resumo_pagamento" id="tempoPagamento">-- min</span></div>
+            <div class="linha_resumo_pagamento"><span class="texto_resumo_pagamento">Tarifa extra:</span><span class="valor_resumo_pagamento" id="valorTarifaPagamento">R$ --/kWh</span></div>
+            <div class="linha_resumo_pagamento"><span class="texto_resumo_pagamento">Fonte de energia</span><span class="valor_resumo_pagamento" id="fonteEnergiaPagamento">--</span></div>
+            <div class="linha_resumo_pagamento desconto"><span class="texto_resumo_pagamento">Desconto</span><span class="valor_resumo_pagamento" id="valorDescontoPagamento">R$ 0,00</span></div>
+            <div class="linha_resumo_pagamento total"><span class="texto_resumo_pagamento">TOTAL A PAGAR</span><span class="valor_resumo_pagamento" id="valorTotalPagamento">R$ --</span></div>
+        </div>
+
+        <div id="pagamento-form">
+            <span class="metodo-label">Forma de Pagamento:</span>
+
+            <div class="metodo-grid">
+            <div class="metodo-botao" id="botao-pix" onclick="selecionarMetodo('pix')">
+                <span class="metodo_icone">📱</span>PIX
+            </div>
+            <div class="metodo-botao" id="botao-cartao" onclick="selecionarMetodo('cartao')">
+                <span class="metodo_icone">💳</span>Cartão
+            </div>
+            <div class="metodo-botao" id="botao-boleto" onclick="selecionarMetodo('boleto')">
+                <span class="metodo_icone">🧾</span>Boleto
+            </div>
+            </div>
+
+            <!-- PIX -->
+            <div class="pix-aba" id="pix-aba">
+            <div class="pix-qr">
+                <img class="qrcode-png" src="/assets/qrcode.png">
+            </div>
+                <p>QR Code</p>
+            </div>
+
+            <!-- CARTÃO -->
+            <div class="cartao-aba" id="cartao-aba">
+            <div class="cartao-input-group">
+                <label>Número do Cartão</label>
+                <input type="text" placeholder="0000 0000 0000 0000" maxlength="19">
+                <label>Nome no Cartão</label>
+                <input type="text" placeholder="NOME SOBRENOME" class="uppercase">
+                <div class="linha-cartao">
+                <div>
+                    <label>Validade</label>
+                    <input type="text" placeholder="MM/AA" maxlength="5">
+                </div>
+                <div>
+                    <label>CVV</label>
+                    <input type="text" placeholder="000" maxlength="3">
+                </div>
+                </div>
+                <label>Parcelas</label>
+                <select class="parcelas">
+                <option>1x sem juros</option>
+                <option>2x sem juros</option>
+                <option>3x sem juros</option>
+                </select>
+            </div>
+            </div>
+
+            <!-- BOLETO -->
+            <div class="boleto-aba" id="boleto-aba">
+            <div class="boleto_img">🧾</div>
+            <div class="boleto-info">
+                <strong>Boleto Bancário</strong><br><br>
+                Vencimento: <strong>3 dias úteis</strong><br>
+                O boleto será gerado após confirmar.<br>
+                Você receberá por e-mail.<br><br>
+                ⚠️ A sessão de recarga será liberada após a confirmação do pagamento (até 2 dias úteis).
+               </div>
+            </div>
+
+            <button class="botao-pagar" id="botaoPagar" onclick="confirmarPagamento()" disabled>Confirmar Pagamento</button>
+        </div>
+
+         <!-- CONFIRMAÇÃO -->
+        <div class="confirmacao" id="confirmacao">
+            <div class="check-circle">✓</div>
+            <h3>Pagamento Confirmado!</h3>
+            <p>Sua sessão de recarga foi registrada com sucesso.</p>
+            <button class="botao-nova-sessao" onclick="novaSessao()">+ Nova Sessão</button>
+        </div>
+    </div>
+
+        <!-- ====== ABA INTEGRAÇÃO ====== -->
+        <div class="conteudo" id="tab-integracao">
+            <h1 class="titulo">⚡ Integração & Automação</h1>
+
+            <div class="cards">
+                <div class="card">
+                    <h3>☀️ GERAÇÃO SOLAR</h3>
+                    <div class="desconto" id="geracaoSolar">-- kW</div>
+                    <p>Leitura do inversor GoodWe (simulada a cada 3s)</p>
+                </div>
+                <div class="card">
+                    <h3>🔋 BATERIA</h3>
+                    <div class="desconto" id="socBateria">--%</div>
+                    <p>Estado de carga do banco de baterias</p>
+                </div>
+            </div>
+
+            <div class="horarios">
+                <h3>NÍVEL DA BATERIA</h3>
+                <div class="battery-track"><div class="battery-fill" id="barraBateria"></div></div>
+                <p style="margin-top:10px;">Fonte ativa agora: <span id="fonteAtivaLive" class="normal">--</span></p>
+            </div>
+
+            <div class="footer">
+                <h3 class="titulo_footer">🤖 LÓGICA DE AUTOMAÇÃO</h3>
+                <br><strong>Geração Solar ≥ Potência do carregador → Fonte: Solar (100% renovável, -15%)</strong>
+                <br><br><strong>Geração insuficiente + Bateria > 20% → Fonte: Solar + Bateria (-7%)</strong>
+                <br><br><strong>Bateria ≤ 20% → Fonte: Rede Elétrica (bateria reservada, sem desconto)</strong>
+                <br><br><p class="descricao_footer">O controlador de automação lê os sensores simulados (placa solar e SOC da bateria) e decide automaticamente a fonte de energia no momento em que a sessão é iniciada na aba "Sessão", aplicando o desconto de sustentabilidade correspondente ao valor final.</p>
+            </div>
+
+            <div class="footer">
+                <h3 class="titulo_footer">🔗 ARQUITETURA DE INTEGRAÇÃO</h3>
+                <br><p class="descricao_footer">Painel Solar → Inversor GoodWe → Banco de Baterias → Controlador de Automação → App de Sessão/Tarifação → Gateway de Pagamento. Cada etapa expõe dados que o app consome em tempo real para decidir a fonte de energia e compor o valor final da sessão de recarga.</p>
+            </div>
+        </div>
+   </div>
+</div>
+    <script src="app.js"></script>
+</body>
+</html>
