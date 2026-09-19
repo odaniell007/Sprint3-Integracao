@@ -7,10 +7,10 @@ Protótipo funcional web (HTML, CSS e JavaScript) que integra geração de energ
 
 Nome -------- RM 
 
- Daniel Vieira : 573326 
- Giovane Salazar : 570396 
- Gustavo Bitencourt : 568885 
- Leonardo Takachi : 569066 
+ - Daniel Vieira : 573326 
+ - Giovane Salazar : 570396 
+ - Gustavo Bitencourt : 568885 
+ - Leonardo Takachi : 569066 
 
 ## Histórico do projeto
 
