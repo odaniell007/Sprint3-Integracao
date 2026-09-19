@@ -4,4 +4,4 @@ Gustavo Bitencourt - RM: 568885
 Leonardo Takachi - RM: 569066
 
 Link do vídeo (YouTube, não listado): [COLAR AQUI]
-Link do repositório (GitHub): [COLAR AQUI]
+Link do repositório (GitHub): https://github.com/odaniell007/Sprint3-Integracao.git
